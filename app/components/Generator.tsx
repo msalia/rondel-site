@@ -23,7 +23,7 @@ export default function Generator() {
   const [rings, setRings] = useState(8);
   const [segments, setSegments] = useState(64);
   const [eccBytes, setEccBytes] = useState(16);
-  const [size, setSize] = useState(380);
+  const [size] = useState(380);
   const [colorIdx, setColorIdx] = useState(0);
 
   const { svg, stats, error } = useMemo(() => {

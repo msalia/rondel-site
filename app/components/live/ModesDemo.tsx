@@ -24,7 +24,7 @@ export default function ModesDemo() {
     if (!text.trim()) return null;
     try {
       const mode = detectMode(text);
-      const code = encode(text, { rings: 8, segmentsPerRing: 48, eccBytes: 4 });
+      const code = encode(text);
       const utf8Bytes = new TextEncoder().encode(text).length;
       return {
         mode,

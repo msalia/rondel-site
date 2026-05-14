@@ -14,7 +14,7 @@ Complete reference for all exported functions, types, and constants.
 encode(input: string, opts?: CircularCodeOptions): EncodedCode
 \`\`\`
 
-Encodes text into a circular code. Automatically selects the optimal encoding mode (numeric, alphanumeric, or byte). Appends a version/length header and Reed-Solomon parity bytes.
+Encodes text into a circular code. Automatically selects the optimal encoding mode and, when options are omitted, auto-sizes rings, segments, and ECC for the smallest code with optimal error correction.
 
 ### decode
 
@@ -40,6 +40,38 @@ bitsToBytes(bits: number[]): Uint8Array
 \`\`\`
 
 Convert between byte arrays and bit arrays.
+
+### autoSize
+
+\`\`\`typescript
+autoSize(input: string, opts?: { segmentsPerRing?: number; eccBytes?: number }): AutoSizeResult | null
+\`\`\`
+
+Compute the optimal grid configuration without encoding. Returns \`null\` if the input is too large. Any parameter can be pinned.
+
+### computeDataBytes
+
+\`\`\`typescript
+computeDataBytes(input: string): number
+\`\`\`
+
+Returns the packed data size in bytes (header + mode-packed payload, no ECC).
+
+### computeNeededBits
+
+\`\`\`typescript
+computeNeededBits(input: string, eccBytes: number): number
+\`\`\`
+
+Returns the total bits needed to encode a string (data + ECC).
+
+### minRingsForBits
+
+\`\`\`typescript
+minRingsForBits(neededBits: number, segmentsPerRing: number): number | null
+\`\`\`
+
+Returns the minimum ring count to hold the given bits, or \`null\` if none fits.
 
 ### rsEncode / rsDecode
 
@@ -212,15 +244,24 @@ toGrayscale(data: Uint8ClampedArray, pixelCount: number): Uint8Array
 
 \`\`\`typescript
 interface CircularCodeOptions {
-  rings?: number;          // default: 5
-  segmentsPerRing?: number; // default: 48
-  eccBytes?: number;       // default: 4
+  rings?: number;          // omit for auto-sizing (4-8)
+  segmentsPerRing?: number; // omit for auto-sizing ([32, 48])
+  eccBytes?: number;       // omit for auto-sizing (2-8)
 }
 
 interface EncodedCode {
   bits: number[];
   rings: number;
   segmentsPerRing: number;
+  eccBytes: number;
+}
+
+interface AutoSizeResult {
+  rings: number;
+  segmentsPerRing: number;
+  eccBytes: number;
+  capacityBits: number;
+  usedBits: number;
 }
 
 interface SVGRenderOptions {
@@ -278,6 +319,11 @@ type ModeType = 0 | 1 | 2;  // NUMERIC | ALPHANUMERIC | BYTE
 | \`DEFAULT_CONSENSUS_SIZE\` | 7 | Rolling buffer size |
 | \`DEFAULT_CONSENSUS_REQUIRED\` | 3 | Frames needed for consensus |
 | \`SCAN_TIMEOUT_MS\` | 30000 | Default scan timeout |
+| \`AUTO_MIN_RINGS\` | 4 | Auto-sizing minimum rings |
+| \`AUTO_MAX_RINGS\` | 8 | Auto-sizing maximum rings |
+| \`AUTO_MIN_ECC\` | 2 | Auto-sizing minimum ECC bytes |
+| \`AUTO_MAX_ECC\` | 8 | Auto-sizing maximum ECC bytes |
+| \`AUTO_SEGMENT_CANDIDATES\` | [32, 48] | Auto-sizing segment options |
 `;
 
 export default function APIReferencePage() {

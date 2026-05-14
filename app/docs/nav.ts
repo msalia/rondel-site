@@ -40,6 +40,7 @@ export const docsNav: NavGroup[] = [
     title: "Reference",
     items: [
       { title: "API Reference", href: "/docs/api" },
+      { title: "Benchmarks", href: "/docs/benchmarks" },
     ],
   },
 ];

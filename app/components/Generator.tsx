@@ -30,9 +30,9 @@ const LIGHT_COLORS = [
 export default function Generator() {
   const [mounted, setMounted] = useState(false);
   const [text, setText] = useState("https://rondel.dev");
-  const [rings, setRings] = useState(8);
-  const [segments, setSegments] = useState(64);
-  const [eccBytes, setEccBytes] = useState(16);
+  const [rings, setRings] = useState(6);
+  const [segments, setSegments] = useState(48);
+  const [eccBytes, setEccBytes] = useState(4);
   const [size] = useState(380);
   const [colorIdx, setColorIdx] = useState(0);
   const { theme } = useTheme();
@@ -112,7 +112,7 @@ export default function Generator() {
               onChange={(e) => setRings(Number(e.target.value))}
               className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-foreground focus:outline-none focus:border-accent"
             >
-              {[3, 4, 5, 6, 7, 8].map((r) => (
+              {[4, 5, 6, 7, 8].map((r) => (
                 <option key={r} value={r}>
                   {r}
                 </option>
@@ -126,7 +126,7 @@ export default function Generator() {
               onChange={(e) => setSegments(Number(e.target.value))}
               className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-foreground focus:outline-none focus:border-accent"
             >
-              {[32, 48, 64, 80].map((s) => (
+              {[32, 48].map((s) => (
                 <option key={s} value={s}>
                   {s}
                 </option>
@@ -140,7 +140,7 @@ export default function Generator() {
               onChange={(e) => setEccBytes(Number(e.target.value))}
               className="w-full bg-card border border-border rounded-lg px-3 py-2.5 text-foreground focus:outline-none focus:border-accent"
             >
-              {[8, 16, 24, 32].map((e) => (
+              {[2, 4, 6, 8].map((e) => (
                 <option key={e} value={e}>
                   {e}
                 </option>

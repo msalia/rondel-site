@@ -12,7 +12,7 @@ export default function ECCDemo() {
   const result = useMemo(() => {
     const text = "Rondel";
     try {
-      const code = encode(text, { rings: 8, segmentsPerRing: 64, eccBytes });
+      const code = encode(text, { eccBytes });
       const maxCorrectable = Math.floor(eccBytes / 2);
       const bits = [...code.bits];
 
@@ -61,7 +61,7 @@ export default function ECCDemo() {
               onChange={(e) => { setEccBytes(Number(e.target.value)); setCorruptCount(0); }}
               className="w-full bg-background border border-border rounded-lg px-2 py-2 text-sm text-foreground focus:outline-none focus:border-accent"
             >
-              {[4, 8, 16].map((e) => (
+              {[2, 4, 6, 8].map((e) => (
                 <option key={e} value={e}>{e} bytes (corrects {Math.floor(e / 2)})</option>
               ))}
             </select>

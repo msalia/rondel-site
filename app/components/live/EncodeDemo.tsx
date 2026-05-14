@@ -6,9 +6,9 @@ import { useTheme } from "@/app/components/ThemeProvider";
 
 export default function EncodeDemo() {
   const [text, setText] = useState("Hello!");
-  const [rings, setRings] = useState(8);
+  const [rings, setRings] = useState(4);
   const [segments, setSegments] = useState(48);
-  const [eccBytes, setEccBytes] = useState(8);
+  const [eccBytes, setEccBytes] = useState(4);
   const { theme } = useTheme();
 
   const result = useMemo(() => {
@@ -56,7 +56,7 @@ export default function EncodeDemo() {
                 onChange={(e) => setRings(Number(e.target.value))}
                 className="w-full bg-background border border-border rounded-lg px-2 py-2 text-sm text-foreground focus:outline-none focus:border-accent"
               >
-                {[3, 4, 5, 6, 7, 8].map((r) => (
+                {[4, 5, 6, 7, 8].map((r) => (
                   <option key={r} value={r}>{r}</option>
                 ))}
               </select>
@@ -68,7 +68,7 @@ export default function EncodeDemo() {
                 onChange={(e) => setSegments(Number(e.target.value))}
                 className="w-full bg-background border border-border rounded-lg px-2 py-2 text-sm text-foreground focus:outline-none focus:border-accent"
               >
-                {[32, 48, 64, 80].map((s) => (
+                {[32, 48].map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>
@@ -80,7 +80,7 @@ export default function EncodeDemo() {
                 onChange={(e) => setEccBytes(Number(e.target.value))}
                 className="w-full bg-background border border-border rounded-lg px-2 py-2 text-sm text-foreground focus:outline-none focus:border-accent"
               >
-                {[4, 8, 16, 24, 32].map((e) => (
+                {[2, 4, 6, 8].map((e) => (
                   <option key={e} value={e}>{e}</option>
                 ))}
               </select>

@@ -18,7 +18,7 @@ export default function ScannerDemo() {
   const { svg, code } = useMemo(() => {
     if (!mounted || !text.trim()) return { svg: "", code: null };
     try {
-      const c = encode(text, { rings: 8, segmentsPerRing: 48, eccBytes: 8 });
+      const c = encode(text);
       const s = renderSVG(c, {
         size: 200,
         primary: theme === "dark" ? "#6366f1" : "#4f46e5",
@@ -52,7 +52,7 @@ export default function ScannerDemo() {
       } else {
         clearInterval(interval);
         try {
-          const result = decode(code.bits, 8);
+          const result = decode(code.bits, code.eccBytes);
           setDecoded(result);
         } catch (e) {
           setDecoded(`Error: ${e instanceof Error ? e.message : "decode failed"}`);

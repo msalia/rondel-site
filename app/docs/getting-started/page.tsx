@@ -25,46 +25,67 @@ npm install @tensorflow/tfjs
 
 ## Basic Usage
 
-Import the functions you need and encode some text:
+Just pass your text — Rondel auto-selects the optimal rings, segments, and error correction:
 
 \`\`\`typescript
 import { encode, renderSVG } from "@msalia/rondel";
 
-const code = encode("Hello, world!", {
-  rings: 5,           // number of data rings
-  segmentsPerRing: 48, // base segments per ring
-  eccBytes: 16,        // Reed-Solomon error correction bytes
-});
-
+const code = encode("https://example.com");
 const svg = renderSVG(code, { size: 400 });
+\`\`\`
+
+The returned \`code\` includes the auto-detected configuration:
+
+\`\`\`typescript
+code.rings           // 6 (auto-selected)
+code.segmentsPerRing // 48 (auto-selected)
+code.eccBytes        // 4 (auto-selected, fills remaining capacity)
+\`\`\`
+
+You can also pin any parameter and let the rest auto-size:
+
+\`\`\`typescript
+const code = encode("Hello!", { eccBytes: 8 });
+// rings and segmentsPerRing are auto-selected
 \`\`\`
 `;
 
 const afterDemo = `
 ## Configuration Options
 
-The \`encode()\` function accepts a \`CircularCodeOptions\` object:
+All options are optional. When omitted, the encoder auto-sizes for the smallest code
+with optimal error correction.
 
-| Option | Type | Default | Description |
-|--------|------|---------|-------------|
-| \`rings\` | \`number\` | \`5\` | Number of data rings (3-8) |
-| \`segmentsPerRing\` | \`number\` | \`48\` | Base segments per ring |
-| \`eccBytes\` | \`number\` | \`4\` | Reed-Solomon parity bytes |
+| Option | Type | Auto behavior |
+|--------|------|---------------|
+| \`rings\` | \`number\` | Fewest rings that fit (4-8) |
+| \`segmentsPerRing\` | \`number\` | Best from [32, 48] |
+| \`eccBytes\` | \`number\` | Fills remaining capacity (2-8) |
 
-> **Tip:** More rings and segments increase data capacity but make each arc smaller.
-> For printed media viewed at a distance, use fewer rings (3-5) with more segments (48-64).
-> For digital displays, you can safely use up to 8 rings with 80 segments.
+> **Tip:** For most use cases, just call \`encode(text)\` with no options.
+> The auto-sizer picks the smallest code with the most error correction.
 
 ## Decode
 
-To decode a bit array back to the original text:
+To decode a bit array back to the original text, pass the same \`eccBytes\`:
 
 \`\`\`typescript
 import { encode, decode } from "@msalia/rondel";
 
-const code = encode("Test", { rings: 5, segmentsPerRing: 48, eccBytes: 16 });
-const text = decode(code.bits, 16);
+const code = encode("Test");
+const text = decode(code.bits, code.eccBytes);
 console.log(text); // "Test"
+\`\`\`
+
+## Auto-Size Without Encoding
+
+To preview the configuration without encoding:
+
+\`\`\`typescript
+import { autoSize } from "@msalia/rondel";
+
+const result = autoSize("https://example.com");
+// { rings: 6, segmentsPerRing: 48, eccBytes: 4, capacityBits: 160, usedBits: 160 }
 \`\`\`
 
 ## Next Steps
@@ -73,6 +94,7 @@ console.log(text); // "Test"
 - Customize output with [SVG and Canvas rendering](/docs/rendering)
 - Understand [Reed-Solomon error correction](/docs/error-correction)
 - Add camera scanning with [React hooks](/docs/react)
+- See [benchmarks](/docs/benchmarks) — 297 fps decode, 773 tests
 `;
 
 export default function GettingStarted() {

@@ -9,8 +9,8 @@ export default function RoundtripDemo() {
   const result = useMemo(() => {
     if (!text.trim()) return null;
     try {
-      const code = encode(text, { rings: 8, segmentsPerRing: 48, eccBytes: 8 });
-      const decoded = decode(code.bits, 8);
+      const code = encode(text);
+      const decoded = decode(code.bits, code.eccBytes);
       return {
         encoded: code.bits.slice(0, 64).map((b: number) => b).join(""),
         totalBits: code.bits.length,

@@ -15,6 +15,7 @@ Each arc represents one bit — dark for 1, light for 0. The format is designed 
 - **Aesthetic integration** — circular codes blend naturally into designs, logos, and printed media
 - **Robust scanning** — ML detection with Hough circle fallback, perspective correction, and multi-frame consensus
 - **Error resilience** — Reed-Solomon coding over GF(256) corrects up to \`eccBytes / 2\` corrupted bytes
+- **Zero-config encoding** — auto-sizes rings, segments, and ECC for optimal fit
 
 ## Anatomy of a Rondel
 
@@ -29,12 +30,8 @@ Every rondel has three structural components:
 \`\`\`typescript
 import { encode, renderSVG } from "@msalia/rondel";
 
-// Encode text into a circular code
-const code = encode("Hello, world!", {
-  rings: 5,
-  segmentsPerRing: 48,
-  eccBytes: 16,
-});
+// Auto-sizes rings, segments, and ECC for optimal fit
+const code = encode("https://example.com");
 
 // Render as SVG
 const svg = renderSVG(code, {
@@ -50,7 +47,7 @@ document.body.innerHTML = svg;
 
 | Module | Purpose |
 |--------|---------|
-| \`core/\` | Encoding, decoding, bitstream operations, layout math, and mode detection |
+| \`core/\` | Encoding, decoding, bitstream, layout math, auto-sizing, and mode detection |
 | \`ecc/\` | Reed-Solomon error correction over GF(256) with Berlekamp-Massey decoding |
 | \`render/\` | SVG and Canvas rendering with color theming |
 | \`scan/\` | ML detection, Hough fallback, perspective correction, polar sampling, and consensus |

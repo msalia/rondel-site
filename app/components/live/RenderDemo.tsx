@@ -35,7 +35,7 @@ export default function RenderDemo() {
 
   const results = useMemo(() => {
     if (!mounted) return themes.map(() => "");
-    const code = encode("Rondel", { rings: 8, segmentsPerRing: 48, eccBytes: 8 });
+    const code = encode("Rondel");
     return themes.map((t) =>
       renderSVG(code, { size, primary: t.primary, secondary: t.secondary })
     );

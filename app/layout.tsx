@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import Nav from "@/app/components/Nav";
 import ThemeProvider from "@/app/components/ThemeProvider";
@@ -40,7 +41,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <Script id="theme-init" strategy="beforeInteractive">{themeScript}</Script>
       </head>
       <body className="min-h-screen bg-background text-foreground">
         <ThemeProvider>

@@ -1,5 +1,7 @@
-import HeroRondel from "./components/HeroRondel";
-import Generator from "./components/Generator";
+import Link from "next/link";
+import HeroRondel from "@/app/components/HeroRondel";
+import Generator from "@/app/components/Generator";
+import CodeBlock from "@/app/components/CodeBlock";
 
 export default function Home() {
   return (
@@ -11,155 +13,96 @@ export default function Home() {
           Rondel
         </h1>
         <p className="mt-4 max-w-xl text-center text-lg text-muted leading-relaxed">
-          A circular barcode format that encodes text into concentric ring
-          patterns. ML detection, perspective correction, and Reed-Solomon error
-          correction built in.
+          A circular barcode format with ML detection, perspective correction,
+          and Reed-Solomon error correction.
         </p>
-        <div className="mt-8 flex gap-4">
-          <a
-            href="#try"
+
+        <div className="mt-6 flex items-center gap-2 bg-card border border-border rounded-lg px-4 py-2.5 font-mono text-sm">
+          <span className="text-muted">$</span>
+          <span>npm install github:msalia/rondel</span>
+        </div>
+
+        <div className="mt-6 flex gap-3">
+          <Link
+            href="/docs"
             className="px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-medium hover:bg-accent/90 transition-colors"
           >
-            Try it
-          </a>
+            Documentation
+          </Link>
           <a
-            href="https://github.com/msalia/rondel"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#playground"
             className="px-5 py-2.5 rounded-lg border border-border text-sm font-medium text-muted hover:text-foreground hover:border-accent/50 transition-colors"
           >
-            GitHub
+            Playground
           </a>
         </div>
       </section>
 
-      {/* What is it */}
+      {/* Features */}
+      <section className="px-6 py-20 border-t border-border">
+        <div className="max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-accent/10 text-accent mb-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <circle cx="12" cy="12" r="6" />
+                  <circle cx="12" cy="12" r="2" />
+                </svg>
+              </div>
+              <h3 className="font-semibold mb-1.5">Encode Anything</h3>
+              <p className="text-sm text-muted leading-relaxed">
+                Text, URLs, data — auto-selects numeric, alphanumeric, or byte encoding for optimal density.
+              </p>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-accent/10 text-accent mb-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </div>
+              <h3 className="font-semibold mb-1.5">ML Detection</h3>
+              <p className="text-sm text-muted leading-relaxed">
+                YOLOv8n-Pose model with 4-corner keypoints. Hough circle fallback when offline.
+              </p>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-accent/10 text-accent mb-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                </svg>
+              </div>
+              <h3 className="font-semibold mb-1.5">Error Resilient</h3>
+              <p className="text-sm text-muted leading-relaxed">
+                Reed-Solomon over GF(256) corrects damaged bytes. Configurable from light to maximum protection.
+              </p>
+            </div>
+            <div className="bg-card border border-border rounded-xl p-6">
+              <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-accent/10 text-accent mb-3">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m7 8-4 4 4 4" />
+                  <path d="m17 8 4 4-4 4" />
+                  <path d="m14 4-4 16" />
+                </svg>
+              </div>
+              <h3 className="font-semibold mb-1.5">React Ready</h3>
+              <p className="text-sm text-muted leading-relaxed">
+                Camera scanning hook with multi-frame consensus. Tree-shakeable — import only what you need.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quick Start */}
       <section className="px-6 py-20 border-t border-border">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight">
-            What is a Rondel?
-          </h2>
+          <h2 className="text-3xl font-bold tracking-tight">Quick Start</h2>
           <p className="mt-4 text-muted leading-relaxed">
-            A 2D barcode arranged as concentric rings of arc segments around a
-            central dot. Each arc represents one bit — dark for 1, light for 0.
-            The code is read by identifying the center, determining orientation,
-            and sampling each segment&apos;s brightness.
+            Encode text and render as SVG in three lines:
           </p>
-
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-6">
-            <div className="bg-card border border-border rounded-xl p-5">
-              <h3 className="font-semibold mb-2">Center Dot</h3>
-              <p className="text-sm text-muted leading-relaxed">
-                Solid circle at the geometric center. Used as a detection anchor
-                and for sub-pixel center refinement during scanning.
-              </p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-5">
-              <h3 className="font-semibold mb-2">Data Rings</h3>
-              <p className="text-sm text-muted leading-relaxed">
-                Each ring is divided into arc segments that scale with
-                circumference. Inner rings get fewer segments, outer rings get
-                more — keeping arc length constant.
-              </p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-5">
-              <h3 className="font-semibold mb-2">Orientation Ring</h3>
-              <p className="text-sm text-muted leading-relaxed">
-                Outermost ring with an asymmetric pattern that encodes rotation
-                angle, reflection state, and polarity for reliable scanning.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How it works */}
-      <section className="px-6 py-20 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight">How It Works</h2>
-
-          <div className="mt-10 space-y-10">
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-3">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-accent/20 text-accent text-sm font-bold">
-                  1
-                </span>
-                Encode
-              </h3>
-              <p className="mt-2 text-muted leading-relaxed ml-10">
-                Text is converted to UTF-8 bytes, wrapped with a version and
-                length header, then protected with Reed-Solomon parity bytes.
-                The byte stream becomes a bit array mapped to ring segments
-                starting from ring 1.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-3">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-accent/20 text-accent text-sm font-bold">
-                  2
-                </span>
-                Render
-              </h3>
-              <p className="mt-2 text-muted leading-relaxed ml-10">
-                The SVG renderer draws concentric arcs — merging consecutive
-                1-bits into single strokes with round line caps. The layout math
-                maintains constant arc length across all rings so inner segments
-                stay readable.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-3">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-accent/20 text-accent text-sm font-bold">
-                  3
-                </span>
-                Detect
-              </h3>
-              <p className="mt-2 text-muted leading-relaxed ml-10">
-                A YOLOv8n-Pose model predicts bounding boxes and 4 corner
-                keypoints for each detected code. Falls back to Hough circle
-                detection when the model is unavailable.
-              </p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-semibold flex items-center gap-3">
-                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-accent/20 text-accent text-sm font-bold">
-                  4
-                </span>
-                Decode
-              </h3>
-              <p className="mt-2 text-muted leading-relaxed ml-10">
-                Perspective correction via 4-point homography, center
-                refinement, orientation recovery from the asymmetric ring,
-                polar-grid sampling with adaptive thresholds, and Reed-Solomon
-                error correction to recover the original text.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Try it */}
-      <section id="try" className="px-6 py-20 border-t border-border">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight mb-8">Try It</h2>
-          <Generator />
-        </div>
-      </section>
-
-      {/* Install */}
-      <section className="px-6 py-20 border-t border-border">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold tracking-tight">Install</h2>
-          <pre className="code-block mt-6 font-mono">
-            <code>npm install github:msalia/rondel</code>
-          </pre>
-
-          <h3 className="text-lg font-semibold mt-10 mb-4">Quick Start</h3>
-          <pre className="code-block font-mono">
-            <code>{`import { encode, renderSVG } from "@msalia/rondel";
+          <CodeBlock language="typescript">{`import { encode, renderSVG } from "@msalia/rondel";
 
 const code = encode("Hello, world!", {
   rings: 5,
@@ -171,60 +114,73 @@ const svg = renderSVG(code, {
   size: 400,
   primary: "#1a237e",
   secondary: "#c5cae9",
-});`}</code>
-          </pre>
+});`}</CodeBlock>
 
-          <h3 className="text-lg font-semibold mt-10 mb-4">
-            Scan from Camera (React)
+          <h3 className="text-lg font-semibold mt-10 mb-3">
+            Scan from Camera
           </h3>
-          <pre className="code-block font-mono">
-            <code>{`import { useCircularScanner } from "@msalia/rondel";
+          <CodeBlock language="tsx">{`import { useCircularScanner } from "@msalia/rondel";
 
 function Scanner() {
   const { videoRef, result } = useCircularScanner({
+    rings: 5, segmentsPerRing: 48, eccBytes: 16,
     modelUrl: "/models/circular_code/model.json",
   });
 
   return (
     <div>
-      <video ref={videoRef} />
+      <video ref={videoRef} autoPlay playsInline />
       {result && <p>Found: {result.data}</p>}
     </div>
   );
-}`}</code>
-          </pre>
+}`}</CodeBlock>
 
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-            <div className="bg-card border border-border rounded-xl p-4">
-              <p className="font-mono text-accent">~280 fps</p>
-              <p className="text-muted mt-1">Decode speed (known detection)</p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-4">
-              <p className="font-mono text-accent">685 tests</p>
-              <p className="text-muted mt-1">Across 24 test files</p>
-            </div>
-            <div className="bg-card border border-border rounded-xl p-4">
-              <p className="font-mono text-accent">GF(256)</p>
-              <p className="text-muted mt-1">Reed-Solomon error correction</p>
-            </div>
+          <div className="mt-6 flex gap-3">
+            <Link
+              href="/docs/getting-started"
+              className="text-sm text-accent hover:underline"
+            >
+              Full installation guide &rarr;
+            </Link>
+            <Link
+              href="/docs/api"
+              className="text-sm text-accent hover:underline"
+            >
+              API reference &rarr;
+            </Link>
           </div>
         </div>
       </section>
 
+      {/* Playground */}
+      <section id="playground" className="px-6 py-20 border-t border-border">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold tracking-tight mb-2">Playground</h2>
+          <p className="text-muted mb-8">
+            Encode text and customize the output in real time.
+          </p>
+          <Generator />
+        </div>
+      </section>
+
       {/* Footer */}
-      <footer className="px-6 py-8 border-t border-border text-center text-sm text-muted">
-        <p>
-          Rondel is{" "}
-          <a
-            href="https://github.com/msalia/rondel"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-foreground hover:text-accent transition-colors"
-          >
-            open source
-          </a>
-          .
-        </p>
+      <footer className="px-6 py-8 border-t border-border">
+        <div className="max-w-5xl mx-auto flex items-center justify-between text-sm text-muted">
+          <p>Rondel</p>
+          <div className="flex items-center gap-4">
+            <Link href="/docs" className="hover:text-foreground transition-colors">
+              Docs
+            </Link>
+            <a
+              href="https://github.com/msalia/rondel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              GitHub
+            </a>
+          </div>
+        </div>
       </footer>
     </main>
   );

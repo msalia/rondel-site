@@ -1,7 +1,8 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { encode, renderSVG } from "@msalia/rondel";
+import { useTheme } from "@/app/components/ThemeProvider";
 
 const PRESETS = [
   { label: "URL", text: "https://rondel.dev" },
@@ -10,31 +11,46 @@ const PRESETS = [
   { label: "Long", text: "The quick brown fox jumps over the lazy dog" },
 ];
 
-const COLORS = [
+const DARK_COLORS = [
   { label: "Indigo", primary: "#4f46e5", secondary: "#312e81" },
-  { label: "Mono", primary: "#000000", secondary: "#d0d0d0" },
+  { label: "Mono", primary: "#d0d0d0", secondary: "#1a1a1a" },
   { label: "Emerald", primary: "#059669", secondary: "#064e3b" },
   { label: "Rose", primary: "#e11d48", secondary: "#4c0519" },
   { label: "Amber", primary: "#d97706", secondary: "#451a03" },
 ];
 
+const LIGHT_COLORS = [
+  { label: "Indigo", primary: "#4f46e5", secondary: "#e0e7ff" },
+  { label: "Mono", primary: "#1a1a1a", secondary: "#e5e5e5" },
+  { label: "Emerald", primary: "#059669", secondary: "#d1fae5" },
+  { label: "Rose", primary: "#e11d48", secondary: "#ffe4e6" },
+  { label: "Amber", primary: "#d97706", secondary: "#fef3c7" },
+];
+
 export default function Generator() {
+  const [mounted, setMounted] = useState(false);
   const [text, setText] = useState("https://rondel.dev");
   const [rings, setRings] = useState(8);
   const [segments, setSegments] = useState(64);
   const [eccBytes, setEccBytes] = useState(16);
   const [size] = useState(380);
   const [colorIdx, setColorIdx] = useState(0);
+  const { theme } = useTheme();
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard
+  useEffect(() => setMounted(true), []);
+
+  const colors = theme === "dark" ? DARK_COLORS : LIGHT_COLORS;
 
   const { svg, stats, error } = useMemo(() => {
-    if (!text.trim()) return { svg: "", stats: null, error: null };
+    if (!mounted || !text.trim()) return { svg: "", stats: null, error: null };
     try {
       const code = encode(text, {
         rings,
         segmentsPerRing: segments,
         eccBytes,
       });
-      const color = COLORS[colorIdx];
+      const color = colors[colorIdx];
       const svgStr = renderSVG(code, {
         size,
         primary: color.primary,
@@ -60,7 +76,7 @@ export default function Generator() {
         error: e instanceof Error ? e.message : "Encoding failed",
       };
     }
-  }, [text, rings, segments, eccBytes, size, colorIdx]);
+  }, [mounted, text, rings, segments, eccBytes, size, colorIdx, colors]);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
@@ -136,7 +152,7 @@ export default function Generator() {
         <div>
           <label className="block text-sm text-muted mb-1.5">Color</label>
           <div className="flex gap-2">
-            {COLORS.map((c, i) => (
+            {colors.map((c, i) => (
               <button
                 key={c.label}
                 onClick={() => setColorIdx(i)}

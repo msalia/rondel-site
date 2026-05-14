@@ -3,6 +3,9 @@ RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
+RUN npm install --no-save \
+    lightningcss-linux-x64-gnu@1.32.0 \
+    @tailwindcss/oxide-linux-x64-gnu@4.3.0
 
 FROM node:20-slim AS builder
 WORKDIR /app

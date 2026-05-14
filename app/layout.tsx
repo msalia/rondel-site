@@ -40,10 +40,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       suppressHydrationWarning
     >
-      <head>
-        <Script id="theme-init" strategy="beforeInteractive">{themeScript}</Script>
-      </head>
       <body className="min-h-screen bg-background text-foreground">
+        <Script id="theme-init" strategy="beforeInteractive">{themeScript}</Script>
         <ThemeProvider>
           <Nav />
           <div className="pt-14">{children}</div>

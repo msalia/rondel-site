@@ -12,7 +12,7 @@ export default function HeroRondel() {
 
   const svg = useMemo(() => {
     if (!mounted) return "";
-    const code = encode("userondel");
+    const code = encode("rondel", { rings: 4, segmentsPerRing: 32, eccBytes: 2 });
     return renderSVG(code, {
       size: 280,
       primary: theme === "dark" ? "#6366f1" : "#4f46e5",

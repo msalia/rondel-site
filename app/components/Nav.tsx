@@ -1,13 +1,18 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTheme } from "@/app/components/ThemeProvider";
 
 export default function Nav() {
+  const [mounted, setMounted] = useState(false);
   const pathname = usePathname();
   const isDocs = pathname.startsWith("/docs");
   const { theme, toggle } = useTheme();
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard
+  useEffect(() => setMounted(true), []);
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-md">
@@ -41,7 +46,7 @@ export default function Nav() {
             className="p-2 text-muted hover:text-foreground transition-colors rounded-md"
             aria-label="Toggle theme"
           >
-            {theme === "dark" ? (
+            {mounted && (theme === "dark" ? (
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="4" />
                 <path d="M12 2v2" />
@@ -57,7 +62,7 @@ export default function Nav() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
               </svg>
-            )}
+            ))}
           </button>
           <a
             href="https://github.com/msalia/rondel"

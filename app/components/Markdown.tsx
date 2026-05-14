@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -7,8 +8,13 @@ import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/pris
 import { useTheme } from "@/app/components/ThemeProvider";
 
 export default function Markdown({ children }: { children: string }) {
+  const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
-  const isDark = theme === "dark";
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard
+  useEffect(() => setMounted(true), []);
+
+  const isDark = !mounted || theme === "dark";
   const style = isDark ? oneDark : oneLight;
 
   const codeStyle: React.CSSProperties = {

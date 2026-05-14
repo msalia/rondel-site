@@ -100,15 +100,12 @@ export default function Home() {
         <div className="max-w-3xl mx-auto">
           <h2 className="text-3xl font-bold tracking-tight">Quick Start</h2>
           <p className="mt-4 text-muted leading-relaxed">
-            Encode text and render as SVG in three lines:
+            Just pass your text — rings, segments, and error correction are auto-selected:
           </p>
           <CodeBlock language="typescript">{`import { encode, renderSVG } from "@msalia/rondel";
 
-const code = encode("Hello, world!", {
-  rings: 5,
-  segmentsPerRing: 48,
-  eccBytes: 16,
-});
+// Auto-sizes for the smallest code with optimal error correction
+const code = encode("https://example.com");
 
 const svg = renderSVG(code, {
   size: 400,

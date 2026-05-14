@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark, oneLight } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { useTheme } from "@/app/components/ThemeProvider";
@@ -15,9 +15,13 @@ export default function CodeBlock({
   copyText?: string;
 }) {
   const [copied, setCopied] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { theme } = useTheme();
 
-  const isDark = theme === "dark";
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard
+  useEffect(() => setMounted(true), []);
+
+  const isDark = !mounted || theme === "dark";
   const style = isDark ? oneDark : oneLight;
 
   const codeStyle: React.CSSProperties = {

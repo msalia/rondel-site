@@ -40,7 +40,7 @@ export default function Generator() {
   // eslint-disable-next-line react-hooks/set-state-in-effect -- hydration guard
   useEffect(() => setMounted(true), []);
 
-  const colors = theme === "dark" ? DARK_COLORS : LIGHT_COLORS;
+  const colors = !mounted || theme === "dark" ? DARK_COLORS : LIGHT_COLORS;
 
   const { svg, stats, error } = useMemo(() => {
     if (!mounted || !text.trim()) return { svg: "", stats: null, error: null };
